@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MECH Department</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Segoe UI,sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            background:linear-gradient(135deg,#3b2d1e,#2a1d0f,#170e02);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            color:white;
+        }
+
+        .container{
+            width:90%;
+            max-width:900px;
+            text-align:center;
+        }
+
+        h1{
+            margin-bottom:15px;
+            font-size:40px;
+        }
+
+        p{
+            color:#d1d5db;
+            margin-bottom:40px;
+        }
+
+        .years{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+            gap:20px;
+        }
+
+        .card{
+            padding:35px;
+            border-radius:18px;
+            text-decoration:none;
+            color:white;
+            background:rgba(255,255,255,.08);
+            backdrop-filter:blur(8px);
+            transition:.4s;
+            border:1px solid rgba(255,255,255,.15);
+        }
+
+        .card:hover{
+            transform:translateY(-10px) scale(1.05);
+            background:#9c4949;
+            box-shadow:0 15px 30px rgba(0,0,0,.4);
+        }
+
+        .card h2{
+            margin-bottom:10px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Department of Mechanical Engineering</h1>
+
+<p>Select Your Year</p>
+
+<div class="years">
+
+<a href="mech-year.html?year=1" class="card">
+<h2>1st Year</h2>
+<p>Explore</p>
+</a>
+
+<a href="mech-year.html?year=2" class="card">
+<h2>2nd Year</h2>
+<p>Explore</p>
+</a>
+
+<a href="mech-year.html?year=3" class="card">
+<h2>3rd Year</h2>
+<p>Explore</p>
+</a>
+
+<a href="mech-year.html?year=4" class="card">
+<h2>4th Year</h2>
+<p>Explore</p>
+</a>
+
+</div>
+
+</div>
+
+</body>
+</html>
