@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Year</title>
+
+<style>
+
+*{
+
+margin:0;
+
+padding:0;
+
+box-sizing:border-box;
+
+font-family:Segoe UI,sans-serif;
+
+}
+
+body{
+
+background:linear-gradient(135deg,#111827,#2563eb);
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+min-height:100vh;
+
+color:white;
+
+}
+
+.container{
+
+width:90%;
+
+max-width:900px;
+
+text-align:center;
+
+}
+
+.cards{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+gap:30px;
+
+margin-top:40px;
+
+}
+
+.card{
+
+background:rgba(255,255,255,.1);
+
+padding:35px;
+
+border-radius:20px;
+
+text-decoration:none;
+
+color:white;
+
+transition:.3s;
+
+}
+
+.card:hover{
+
+background:#2563eb;
+
+transform:translateY(-10px);
+
+}
+
+.back{
+
+margin-top:40px;
+
+}
+
+.back a{
+
+background:black;
+
+padding:12px 25px;
+
+color:white;
+
+text-decoration:none;
+
+border-radius:10px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1 id="title"></h1>
+
+<p>Choose an option</p>
+
+<div class="cards">
+
+<a id="students" class="card">
+
+👨‍🎓
+
+<h2>Students</h2>
+
+</a>
+
+<a id="staffs" class="card">
+
+👨‍🏫
+
+<h2>Staffs</h2>
+
+</a>
+
+<a id="events" class="card">
+
+🎉
+
+<h2>Events</h2>
+
+</a>
+
+</div>
+
+<div class="back">
+
+<a href="javascript:history.back()">
+
+⬅ Back
+
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+const params=new URLSearchParams(location.search);
+
+const dept=params.get("dept");
+
+const year=params.get("year");
+
+document.getElementById("title").innerHTML=
+
+`${dept} Department - ${year}${
+year==1?"st":
+year==2?"nd":
+year==3?"rd":"th"
+} Year`;
+
+document.getElementById("students").href=
+`students.html?dept=${dept}&year=${year}`;
+
+document.getElementById("staffs").href=
+`staffs.html?dept=${dept}&year=${year}`;
+
+document.getElementById("events").href=
+`events.html?dept=${dept}&year=${year}`;
+
+</script>
+
+</body>
+
+</html>

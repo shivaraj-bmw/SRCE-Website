@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events</title>
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Arial,sans-serif; }
+
+body { background:#eef3ff; color:#222; padding-bottom:40px; }
+
+header {
+    background:#0b4ea2; color:white; padding:22px 20px; text-align:center;
+    box-shadow:0 3px 8px rgba(0,0,0,.2);
+}
+header h1 { font-size:26px; }
+header h3 { font-weight:normal; margin-top:6px; opacity:.9; font-size:15px; }
+
+.container { width:95%; max-width:1200px; margin:25px auto; }
+
+.topBar {
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:12px; margin-bottom:22px;
+}
+.buttons { display:flex; gap:10px; flex-wrap:wrap; }
+
+button, .backBtn {
+    padding:11px 16px; border:none; border-radius:8px; background:#0b4ea2;
+    color:white; cursor:pointer; font-size:14px; text-decoration:none; display:inline-block;
+}
+button:hover, .backBtn:hover { background:#083b7a; }
+
+#searchBox { padding:11px 14px; width:260px; max-width:60vw; border:1px solid #ccc; border-radius:8px; font-size:14px; }
+
+.emptyMsg { text-align:center; color:#777; padding:40px 0; grid-column:1/-1; }
+
+#eventsGrid {
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:22px;
+}
+
+.eventCard {
+    background:white; border-radius:14px; overflow:hidden; cursor:pointer;
+    box-shadow:0 4px 12px rgba(0,0,0,.1); transition:.25s;
+}
+.eventCard:hover { transform:translateY(-6px); box-shadow:0 10px 22px rgba(0,0,0,.15); }
+
+.eventPhoto { width:100%; height:160px; object-fit:cover; display:block; }
+.eventPhoto.noPhoto {
+    display:flex; align-items:center; justify-content:center; font-size:42px;
+    background:#dbe6ff; color:#0b4ea2;
+}
+
+.eventCardBody { padding:16px; }
+.eventCardBody h3 { color:#0b4ea2; margin-bottom:6px; font-size:17px; }
+.eventDate { display:block; font-size:13px; color:#666; margin-bottom:8px; }
+.eventSnippet { font-size:14px; color:#444; line-height:1.4; }
+
+/* Modals */
+.modal {
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,.55);
+    justify-content:center; align-items:center; z-index:1000; padding:20px;
+}
+.modal-content {
+    background:white; padding:26px; width:500px; max-width:100%; border-radius:14px;
+    display:flex; flex-direction:column; gap:12px; max-height:90vh; overflow-y:auto;
+    animation:popup .25s;
+}
+@keyframes popup { from{transform:scale(.85);opacity:0;} to{transform:scale(1);opacity:1;} }
+
+.modal-content h2 { color:#0b4ea2; }
+.modal-content input, .modal-content textarea {
+    padding:11px; font-size:14px; border:1px solid #ccc; border-radius:8px; width:100%;
+}
+.modal-content textarea { resize:vertical; min-height:110px; }
+
+#photoPreview {
+    width:100%; max-height:220px; object-fit:cover; border-radius:10px; display:none;
+}
+
+.modal-buttons { display:flex; justify-content:flex-end; gap:10px; margin-top:4px; }
+.cancelStyle { background:#888; }
+.cancelStyle:hover { background:#666; }
+.dangerStyle { background:#c0392b; }
+.dangerStyle:hover { background:#992d22; }
+
+#viewPhoto { width:100%; max-height:280px; object-fit:cover; border-radius:10px; }
+#viewTitle { color:#0b4ea2; font-size:22px; }
+#viewDate { color:#666; font-size:14px; }
+#viewDesc { line-height:1.6; white-space:pre-wrap; font-size:15px; color:#333; }
+
+@media(max-width:600px){
+    .topBar{ flex-direction:column; align-items:stretch; }
+    #searchBox{ width:100%; max-width:100%; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎉 Department Events</h1>
+    <h3 id="pageTitle"></h3>
+</header>
+
+<div class="container">
+
+    <div class="topBar">
+        <input type="text" id="searchBox" placeholder="🔍 Search events...">
+        <div class="buttons">
+            <a class="backBtn" id="backLink">⬅ Back</a>
+            <button id="addBtn">➕ Add Event</button>
+        </div>
+    </div>
+
+    <div id="eventsGrid"></div>
+
+</div>
+
+<!-- Add / Edit Event Modal -->
+<div id="eventModal" class="modal">
+    <div class="modal-content">
+        <h2 id="modalTitle">Add Event</h2>
+        <img id="photoPreview" alt="preview">
+        <input type="file" id="photoInput" accept="image/*">
+        <input type="text" id="titleInput" placeholder="Event Title">
+        <input type="date" id="dateInput">
+        <textarea id="descInput" placeholder="Detailed description of the event..."></textarea>
+        <div class="modal-buttons">
+            <button id="saveBtn">💾 Save</button>
+            <button id="cancelBtn" class="cancelStyle">❌ Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- View Event Detail Modal -->
+<div id="viewModal" class="modal">
+    <div class="modal-content">
+        <img id="viewPhoto" alt="event photo">
+        <h2 id="viewTitle"></h2>
+        <span id="viewDate"></span>
+        <p id="viewDesc"></p>
+        <div class="modal-buttons">
+            <button id="viewEditBtn">✏️ Edit</button>
+            <button id="viewDelBtn" class="dangerStyle">🗑️ Delete</button>
+            <button id="viewCloseBtn" class="cancelStyle">Close</button>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/safe-storage.js"></script>
+<script src="assets/js/events.js"></script>
+
+</body>
+</html>

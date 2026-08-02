@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Department</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI,sans-serif;
+}
+
+body{
+
+background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
+
+min-height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+color:white;
+
+}
+
+.container{
+
+width:90%;
+
+max-width:1000px;
+
+text-align:center;
+
+}
+
+h1{
+
+font-size:45px;
+
+margin-bottom:10px;
+
+}
+
+p{
+
+margin-bottom:40px;
+
+color:#ddd;
+
+}
+
+.years{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+gap:25px;
+
+}
+
+.card{
+
+background:rgba(255,255,255,.1);
+
+padding:30px;
+
+border-radius:20px;
+
+text-decoration:none;
+
+color:white;
+
+transition:.3s;
+
+}
+
+.card:hover{
+
+background:#2563eb;
+
+transform:translateY(-10px);
+
+}
+
+.back{
+
+margin-top:40px;
+
+}
+
+.back a{
+
+text-decoration:none;
+
+background:black;
+
+padding:12px 25px;
+
+color:white;
+
+border-radius:10px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1 id="departmentName"></h1>
+
+<p>Select Academic Year</p>
+
+<div class="years" id="yearsContainer"></div>
+
+<div class="back">
+
+<a href="departments.html">
+
+⬅ Back
+
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+const params=new URLSearchParams(location.search);
+
+const dept=params.get("dept") || "CSE";
+
+const names={
+
+CSE:"💻 Computer Science Engineering",
+
+ECE:"📡 Electronics & Communication Engineering",
+
+EEE:"⚡ Electrical & Electronics Engineering",
+
+MECH:"⚙ Mechanical Engineering",
+
+CIVIL:"🏗 Civil Engineering",
+
+AIDS:"🤖 Artificial Intelligence & Data Science",
+
+MCA:"🖥 Master of Computer Applications"
+
+};
+
+document.getElementById("departmentName").innerHTML=names[dept];
+
+// MCA is a 2-year Master's programme; every other department is 4 years.
+const availableYears = dept === "MCA" ? [1,2] : [1,2,3,4];
+
+const icons = {1:"📘",2:"📗",3:"📙",4:"🎓"};
+const labels = {1:"1st Year",2:"2nd Year",3:"3rd Year",4:"4th Year"};
+
+const yearsContainer = document.getElementById("yearsContainer");
+
+availableYears.forEach(y => {
+    const card = document.createElement("a");
+    card.className = "card";
+    card.href = `year.html?dept=${dept}&year=${y}`;
+    card.innerHTML = `${icons[y]}<h2>${labels[y]}</h2>`;
+    yearsContainer.appendChild(card);
+});
+
+</script>
+
+</body>
+
+</html>
